@@ -22,7 +22,7 @@ class Authorizer {
             const [, token] = authToken.split(" ");
 
             verify(token, process.env.JWT_SECRET || "");
-
+            
             return next();
         } catch (e: any) {
             throw new AppError("Token inválido", 401);
