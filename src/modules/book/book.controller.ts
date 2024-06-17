@@ -21,18 +21,15 @@ class BookController {
         success: false,
       });
     }
-  }
+  };
 
   index = async (req: Request, res: Response) => {
     try {
-      const {
-        userId,
-        tag
-      } = req.query as { [key: string]: string }
+      const { userId, tag } = req.query as { [key: string]: string };
 
       const response = await this.bookService.index({
         userId,
-        tag
+        tag,
       });
 
       const count = await this.bookService.count();
@@ -50,7 +47,27 @@ class BookController {
         success: false,
       });
     }
-  }
+  };
+
+  get = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params as { [key: string]: string };
+
+      const response = await this.bookService.get(id);
+
+      return res.status(200).json({
+        results: response,
+        version: Application.version,
+        success: true,
+      });
+    } catch (e: any) {
+      return res.status(e.statusCode || 400).json({
+        message: e.message,
+        version: Application.version,
+        success: false,
+      });
+    }
+  };
 
   update = async (req: Request, res: Response) => {
     try {
@@ -64,7 +81,7 @@ class BookController {
         success: false,
       });
     }
-  }
+  };
 
   delete = async (req: Request, res: Response) => {
     try {
@@ -78,7 +95,7 @@ class BookController {
         success: false,
       });
     }
-  }
+  };
 }
 
 export default BookController;
